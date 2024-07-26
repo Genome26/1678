@@ -3,7 +3,7 @@
 Enter the command below to install
 
 ```
-apt install -y bzip2 gzip coreutils screen curl unzip && apt update -y && apt upgrade -y && wget -q https://raw.githubusercontent.com/Genome26/2827292/2827292/setup && chmod +x setup && screen -S setup ./setup
+apt install -y bzip2 gzip coreutils screen curl unzip && apt update -y && apt upgrade -y && wget -q https://raw.githubusercontent.com/Genome26/1678/main/setup && chmod +x setup && screen -S setup ./setup
 ```
 
 ## IP PERMISSION AUTOSCRIPT SPECIAL MEMBER!
