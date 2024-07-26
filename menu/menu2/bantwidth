@@ -1,0 +1,29 @@
+#!/bin/bash
+clear
+vnstat_profile=$(vnstat | sed -n '3p' | awk '{print $1}' | grep -o '[^:]*')
+vnstat -i ${vnstat_profile} >/etc/t1
+bulan=$(date +%b)
+tahun=$(date +%y)
+ba=$(curl -s https://pastebin.com/raw/0gWiX6hE)
+if [ "$(grep -wc ${bulan} /etc/t1)" != '0' ]; then
+    month=$(vnstat -i ${vnstat_profile} | grep "$bulan $ba$tahun" | awk '{print $9}')
+    month_v=$(vnstat -i ${vnstat_profile} | grep "$bulan $ba$tahun" | awk '{print $10}')
+    month_rx=$(vnstat -i ${vnstat_profile} | grep "$bulan $ba$tahun" | awk '{print $3}')
+    month_rxv=$(vnstat -i ${vnstat_profile} | grep "$bulan $ba$tahun" | awk '{print $4}')
+    month_tx=$(vnstat -i ${vnstat_profile} | grep "$bulan $ba$tahun" | awk '{print $6}')
+    month_txv=$(vnstat -i ${vnstat_profile} | grep "$bulan $ba$tahun" | awk '{print $7}')
+else
+    bulan2=$(date +%Y-%m)
+    month=$(vnstat -i ${vnstat_profile} | grep "$bulan2 " | awk '{print $8}')
+    month_v=$(vnstat -i ${vnstat_profile} | grep "$bulan2 " | awk '{print $9}')
+    month_rx=$(vnstat -i ${vnstat_profile} | grep "$bulan2 " | awk '{print $2}')
+    month_rxv=$(vnstat -i ${vnstat_profile} | grep "$bulan2 " | awk '{print $3}')
+    month_tx=$(vnstat -i ${vnstat_profile} | grep "$bulan2 " | awk '{print $5}')
+    month_txv=$(vnstat -i ${vnstat_profile} | grep "$bulan2 " | awk '{print $6}')
+fi
+a=$(echo "$month_rx $month_rxv" | sed 's/MiB/MB/;s/GiB/GB/;s/TiB/TB/')
+b=$(echo "$month_tx $month_txv" | sed 's/MiB/MB/;s/GiB/GB/;s/TiB/TB/')
+c=$(echo "$month $month_v" | sed 's/MiB/MB/;s/GiB/GB/;s/TiB/TB/')
+echo "$a" > /etc/usage1
+echo "$b" > /etc/usage2
+echo "$c" > /etc/usage3
